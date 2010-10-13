@@ -7,7 +7,7 @@ use Bundle\PaymentGatewayBundle\Interface\AbstractOrder;
 use Bundle\PaymentGatewayBundle\Interface\AbstractPaymentGateway;
 use Bundle\PaymentGatewayBundle\Interface\AbstractPaymentMethod;
 
-class PaymentGateway implements AbstractPaymentGateway {
+class PaymentGateway extends AbstractPaymentGateway {
 	
 	private $address;
 	private $paymentMethod;
