@@ -2,10 +2,10 @@
 
 namespace Bundle\PaymentGatewayBundle\Service\AuthorizeNet;
 
-use Bundle\PaymentGatewayBundle\Interface\AbstractAddress;
-use Bundle\PaymentGatewayBundle\Interface\AbstractOrder;
-use Bundle\PaymentGatewayBundle\Interface\AbstractPaymentGateway;
-use Bundle\PaymentGatewayBundle\Interface\AbstractPaymentMethod;
+use Bundle\PaymentGatewayBundle\Abstract\Address;
+use Bundle\PaymentGatewayBundle\Abstract\Order;
+use Bundle\PaymentGatewayBundle\Abstract\PaymentGateway as AbstractPaymentGateway;
+use Bundle\PaymentGatewayBundle\Abstract\PaymentMethod;
 
 class PaymentGateway extends AbstractPaymentGateway {
 	
@@ -38,7 +38,7 @@ class PaymentGateway extends AbstractPaymentGateway {
 
 	}
 
-	public function setAddress(AbstractAddress $address) {
+	public function setAddress(Address $address) {
 		$this->address = $address;
 	}
 
@@ -46,7 +46,7 @@ class PaymentGateway extends AbstractPaymentGateway {
 		return $this->address;
 	}
 
-	public function setPaymentMethod(AbstractPaymentMethod $method) {
+	public function setPaymentMethod(PaymentMethod $method) {
 		$this->paymentMethod = $method;
 	}
 
@@ -54,7 +54,7 @@ class PaymentGateway extends AbstractPaymentGateway {
 		return $this->paymentMethod;
 	}
 
-	public function setOrder(Abstract $order) {
+	public function setOrder(Order $order) {
 		$this->order = $order;
 	}
 
