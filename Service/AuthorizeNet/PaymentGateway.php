@@ -33,11 +33,14 @@ class PaymentGateway extends AbstractPaymentGateway {
 	private $response;
 	
 	public function __construct(array $configs = array()) {
-		$this->configs = $configs;
+		$this->configs = array_merge($this->configs, $configs);
 	}
 
 	private function connect() {
-		
+		$this->curl = curl_init($this->getPostUrl());
+		curl_setopt($this->curl, \CURLOPT_HEADER, $this->getCurlOptHeader());
+		curl_setopt($this->curl, \CURLOPT_RETURNTRANSFER, $this->getCurlOptReturnTransfer());
+		curl_setopt($this->curl, \CURLOPT_SSL_VERIFYPEER, $this->getCurlOptSslVerifyPeer());
 	}
 
 	private function disconnect() {
@@ -45,15 +48,24 @@ class PaymentGateway extends AbstractPaymentGateway {
 	}
 
 	public function authorize() {
-
+		$this->connect();
+		curl_setopt($this->curl, \CURLOPT_POSTFIELDS, $this->getPostStringForAuthorize());
+	
+		$this->disconnect();
 	}
 
 	public function capture() {
+		$this->connect();
+		curl_setopt($this->curl, \CURLOPT_POSTFIELDS, $this->getPostStringForCapture());
 
+		$this->disconnect();
 	}
 
 	public function cancel() {
+		$this->connect();
+		curl_setopt($this->curl, \CURLOPT_POSTFIELDS, $this->getPostStringForCancel());		
 
+		$this->disconnect();
 	}
 
 	public function setAddress(Address $address) {
@@ -160,11 +172,6 @@ class PaymentGateway extends AbstractPaymentGateway {
 
 	public function getCurl() {
 		return $this->curl;
-	}
-
-	public function setCurl($postUrl = null) {
-		if (!isset($postUrl)) $postUrl = $this->getPostUrl();
-		$this->curl = curl_init($postUrl);
 	}
 
 	public function getResponse() {
