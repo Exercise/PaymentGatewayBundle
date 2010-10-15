@@ -1,8 +1,8 @@
 <?php
 
-namespace Bundle\PaymentGatewayBundle\Abstract;
+namespace Bundle\PaymentGatewayBundle\Service;
 
-use Bundle\PaymentGatewayBundle\Abstract\Order;
+use Bundle\PaymentGatewayBundle\Service\Order;
 
 abstract class Item {
 

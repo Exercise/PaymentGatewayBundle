@@ -1,15 +1,15 @@
 <?php
 
-namespace Bundle\PaymentGatewayBundle;
+namespace Bundle\PaymentGatewayBundle\Service;
 
-use Bundle\PaymentGatewayBundle\Abstract\Address;
-use Bundle\PaymentGatewayBundle\Abstract\Order;
-use Bundle\PaymentGatewayBundle\Abstract\PaymentMethod;
+use Bundle\PaymentGatewayBundle\Service\Address;
+use Bundle\PaymentGatewayBundle\Service\Order;
+use Bundle\PaymentGatewayBundle\Service\PaymentMethod;
 
 abstract class PaymentGateway {
 
-	abstract private function connect();
-	abstract private function disconnect();
+	abstract protected function connect();
+	abstract protected function disconnect();
 	
 	abstract public function authorize();
 	abstract public function capture();

@@ -2,10 +2,10 @@
 
 namespace Bundle\PaymentGatewayBundle\Service\AuthorizeNet;
 
-use Bundle\PaymentGatewayBundle\Abstract\Address;
-use Bundle\PaymentGatewayBundle\Abstract\Order;
-use Bundle\PaymentGatewayBundle\Abstract\PaymentGateway as AbstractPaymentGateway;
-use Bundle\PaymentGatewayBundle\Abstract\PaymentMethod;
+use Bundle\PaymentGatewayBundle\Service\Address;
+use Bundle\PaymentGatewayBundle\Service\Order;
+use Bundle\PaymentGatewayBundle\Service\PaymentGateway as AbstractPaymentGateway;
+use Bundle\PaymentGatewayBundle\Service\PaymentMethod;
 
 class PaymentGateway extends AbstractPaymentGateway {
 	
@@ -19,7 +19,7 @@ class PaymentGateway extends AbstractPaymentGateway {
 	private $order;
 	private $amount;
 	
-	private $configs = array(
+	private $config = array(
 		"version"              => "3.1",
 		"delim_data"           => TRUE,
 		"delim_char"           => "|",
@@ -32,18 +32,18 @@ class PaymentGateway extends AbstractPaymentGateway {
 	private $curl;
 	private $response;
 	
-	public function __construct(array $configs = array()) {
-		$this->configs = array_merge($this->configs, $configs);
+	public function __construct(array $config = array()) {
+		$this->config = array_merge($this->config, $config);
 	}
 
-	private function connect() {
+	protected function connect() {
 		$this->curl = curl_init($this->getPostUrl());
 		curl_setopt($this->curl, \CURLOPT_HEADER, $this->getCurlOptHeader());
 		curl_setopt($this->curl, \CURLOPT_RETURNTRANSFER, $this->getCurlOptReturnTransfer());
 		curl_setopt($this->curl, \CURLOPT_SSL_VERIFYPEER, $this->getCurlOptSslVerifyPeer());
 	}
 
-	private function disconnect() {
+	protected function disconnect() {
 		curl_close($this->getCurl());
 	}
 
