@@ -21,12 +21,12 @@ class PaymentGateway extends AbstractPaymentGateway {
 	
 	private $config = array(
 		"version"              => "3.1",
-		"delim_data"           => TRUE,
-		"delim_char"           => "|",
-		"relay_response"       => FALSE,
-		"curl_header"          => 0, // set to 0 to eliminate header info from response
-		"curl_return_transfer" => 1, // Returns response data instead of TRUE(1)
-		"curl_ssl_verify_peer" => FALSE,
+		"delimData"           => TRUE,
+		"delimChar"           => "|",
+		"relayResponse"       => FALSE,
+		"curlHeader"          => 0, // set to 0 to eliminate header info from response
+		"curlReturnTransfer" => 1, // Returns response data instead of TRUE(1)
+		"curlSslVerifyPeer" => FALSE,
 	);
 
 	private $curl;
@@ -36,15 +36,14 @@ class PaymentGateway extends AbstractPaymentGateway {
 		$this->config = array_merge($this->config, $config);
 	}
 
-	protected function connect() {
-		$this->curl = curl_init($this->getPostUrl());
+	public function connect() {
 		curl_setopt($this->curl, \CURLOPT_HEADER, $this->getCurlOptHeader());
 		curl_setopt($this->curl, \CURLOPT_RETURNTRANSFER, $this->getCurlOptReturnTransfer());
 		curl_setopt($this->curl, \CURLOPT_SSL_VERIFYPEER, $this->getCurlOptSslVerifyPeer());
 	}
 
-	protected function disconnect() {
-		curl_close($this->getCurl());
+	public function disconnect() {
+		curl_close($this->curl);
 	}
 
 	public function authorize() {
@@ -66,38 +65,6 @@ class PaymentGateway extends AbstractPaymentGateway {
 		curl_setopt($this->curl, \CURLOPT_POSTFIELDS, $this->getPostStringForCancel());		
 
 		$this->disconnect();
-	}
-
-	public function setAddress(Address $address) {
-		$this->address = $address;
-	}
-
-	public function getAddress() {
-		return $this->address;
-	}
-
-	public function setPaymentMethod(PaymentMethod $method) {
-		$this->paymentMethod = $method;
-	}
-
-	public function getPaymentMethod() {
-		return $this->paymentMethod;
-	}
-
-	public function setOrder(Order $order) {
-		$this->order = $order;
-	}
-
-	public function getOrder() {
-		return $this->order;
-	}
-
-	public function setAmount($amount) {
-		$this->amount = $amount;
-	}
-
-	public function getAmount() {
-		return $this->amount;
 	}
 
 	public function getConfig() {
@@ -176,6 +143,14 @@ class PaymentGateway extends AbstractPaymentGateway {
 
 	public function getCurl() {
 		return $this->curl;
+	}
+
+	public function setCurl($curl = null) {
+		if ($culr) {
+			$this->curl = $culr;
+		}	else {
+			$this->curl = curl_init($this->getPostUrl());
+		}
 	}
 
 	public function getResponse() {

@@ -5,26 +5,60 @@ namespace Bundle\PaymentGatewayBundle\Service;
 use Bundle\PaymentGatewayBundle\Service\Address;
 use Bundle\PaymentGatewayBundle\Service\Order;
 use Bundle\PaymentGatewayBundle\Service\PaymentMethod;
+use Bundle\PaymentGatewayBundle\Service\PaymentGatewayInterface;
 
-abstract class PaymentGateway {
+class PaymentGateway implements PaymentGatewayInterface {
 
-	abstract protected function connect();
-	abstract protected function disconnect();
+	public function connect() {
 	
-	abstract public function authorize();
-	abstract public function capture();
-	abstract public function cancel();
+	}
 
-	abstract public function setAddress(Address $address);
-	abstract public function getAddress();
+	public function disconnect() {
 
-	abstract public function setPaymentMethod(PaymentMethod $method);
-	abstract public function getPaymentMethod();
+	}
 
-	abstract public function setOrder(Order $order);
-	abstract public function getOrder();
+	public function authorize() {
+
+	}
+
+	public function capture() {
+
+	}
 	
-	abstract public function setAmount($amount);
-	abstract public function getAmount();
+	public function cancel() {
+
+	}
+
+	public function setAddress(Address $address) {
+		$this->address = $address;
+	}
+
+	public function getAddress() {
+		return $this->address;
+	}
+
+	public function setPaymentMethod(PaymentMethod $method) {
+		$this->paymentMethod = $method;
+	}
+
+	public function getPaymentMethod() {
+		return $this->paymentMethod;
+	}
+
+	public function setOrder(Order $order) {
+		$this->order = $order;
+	}
+
+	public function getOrder() {
+		return $this->order;
+	}
+
+	public function setAmount($amount) {
+		$this->amount = $amount;
+	}
+
+	public function getAmount() {
+		return $this->amount;
+	}
 
 }

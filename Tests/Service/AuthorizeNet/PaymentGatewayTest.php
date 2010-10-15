@@ -7,12 +7,12 @@ class PaymentGatewayTest extends \PHPUnit_Framework_TestCase {
 	protected $paymentGateway;
 	protected $config = array(
 		"version"              => "3.1",
-		"delim_data"           => TRUE,
-		"delim_char"           => "|",
-		"relay_response"       => FALSE,
-		"curl_header"          => 0,
-		"curl_return_transfer" => 1,
-		"curl_ssl_verify_peer" => FALSE,
+		"delimData"           => TRUE,
+		"delimChar"           => "|",
+		"relayResponse"       => FALSE,
+		"curlHeader"          => 0,
+		"curlReturnTransfer" => 1,
+		"curlSslVerifyPeer" => FALSE,
 	);
 
 	public function setUp() {
@@ -25,7 +25,11 @@ class PaymentGatewayTest extends \PHPUnit_Framework_TestCase {
 		$this->paymentGateway = null;
 		$this->config = null;
 	}
-	
+
+	public function testImplementsPaymentGatewayInterface() {
+		$this->assertTrue($this->paymentGateway instanceof \Bundle\PaymentGatewayBundle\Service\PaymentGatewayInterface);
+	}
+
 	public function testConstructor() {
 		$this->assertEquals($this->config, $this->paymentGateway->getConfig());
 	}
@@ -54,5 +58,66 @@ class PaymentGatewayTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($config['transactionKey'], $gateway->getTransactionKey());
 	}
 
+	public function testGetSetVersion() {
+		$this->assertNotNull($this->paymentGateway->getVersion());
+		$value = '3.2';
+		$this->paymentGateway->setVersion($value);
+		$this->assertEquals($value, $this->paymentGateway->getVersion());
+		$config = array(
+			'version' => '3.2',
+		);
+		$gateway = new PaymentGateway($config);
+		$this->assertEquals($config['version'], $gateway->getVersion());
+	}
+
+	public function testGetSetDelimData() {
+		$this->assertTrue($this->paymentGateway->getDelimData());
+		$value = FALSE;
+		$this->paymentGateway->setDelimData($value);
+		$this->assertEquals($value, $this->paymentGateway->getDelimData());
+		$config = array(
+			'delimData' => FALSE,
+		);
+		$gateway = new PaymentGateway($config);
+		$this->assertEquals($config['delimData'], $gateway->getDelimData());
+	}
+
+	public function testGetSetDelimChar() {
+		$this->assertNotNull($this->paymentGateway->getDelimChar());
+		$value = '~';
+		$this->paymentGateway->setDelimChar($value);
+		$this->assertEquals($value, $this->paymentGateway->getDelimChar());
+		$config = array(
+			'delimChar' => '~',
+		);
+		$gateway = new PaymentGateway($config);
+		$this->assertEquals($config['delimChar'], $gateway->getDelimChar());
+	}
+
+	public function testGetSetRelayResponse() {
+		$this->assertFalse($this->paymentGateway->getRelayResponse());
+		$value = TRUE;
+		$this->paymentGateway->setRelayResponse($value);
+		$this->assertEquals($value, $this->paymentGateway->getRelayResponse());
+		$config = array(
+			'relayResponse' => TRUE,
+		);
+		$gateway = new PaymentGateway($config);
+		$this->assertEquals($config['relayResponse'], $gateway->getRelayResponse());
+	}
+
+	public function testGetSetPostUrl() {
+		$this->assertNull($this->paymentGateway->getPostUrl());
+		$value = 'http://www.google.com';
+		$this->paymentGateway->setPostUrl($value);
+		$this->assertEquals($value, $this->paymentGateway->getPostUrl());
+		$config = array(
+			'postUrl' => 'http://www.google.com',
+		);
+		$gateway = new PaymentGateway($config);
+		$this->assertEquals($config['postUrl'], $gateway->getPostUrl());
+	}
+
+	
 
 }
