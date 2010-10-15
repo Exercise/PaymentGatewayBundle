@@ -100,6 +100,10 @@ class PaymentGateway extends AbstractPaymentGateway {
 		return $this->amount;
 	}
 
+	public function getConfig() {
+		return $this->config;
+	}
+
 	public function getApiLoginId() {
 		if (array_key_exists('apiLoginId', $this->config)) {
 			return $this->config['apiLoginId'];
