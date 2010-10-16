@@ -3,7 +3,7 @@
 namespace Bundle\PaymentGatewayBundle\Service\PaymentMethod;
 
 class CreditCardTest extends \PHPUnit_Framework_TestCase {
-	
+
 	protected $creditCard;
 
 	protected function setUp() {
@@ -42,6 +42,25 @@ class CreditCardTest extends \PHPUnit_Framework_TestCase {
 		$value = 'Matthew Fitzgerald';
 		$this->creditCard->setOwner($value);
 		$this->assertEquals($value, $this->creditCard->getOwner());
+	}
+
+	public function testGetSetType() {
+		$this->assertNull($this->creditCard->getType());
+		$type = CreditCard::TYPE_VISA;
+		$this->creditCard->setType($type);
+		$this->assertEquals($type, $this->creditCard->getType());
+	}
+
+	public function testTypeConstraintAndFieldChoices() {
+
+		$constraintChoices = CreditCard::getTypeConstraintChoices();
+		$this->assertType('array', $constraintChoices);
+
+		$fieldChoices = CreditCard::getTypeFieldChoices();
+		$this->assertType('array', $fieldChoices);
+
+		$this->assertEquals(count($constraintChoices), count($fieldChoices));
+		$this->assertEquals($constraintChoices, array_keys($fieldChoices));
 	}
 
 	public function testGetSetVerification() {

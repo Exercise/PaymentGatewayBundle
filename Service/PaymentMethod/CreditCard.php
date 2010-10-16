@@ -6,6 +6,18 @@ use Bundle\PaymentGatewayBundle\Service\PaymentMethod;
 
 class CreditCard extends PaymentMethod {
 
+	const TYPE_VISA             = 'VI';
+	const TYPE_MASTERCARD       = 'MC';
+	const TYPE_AMERICAN_EXPRESS = 'AE';
+	const TYPE_DISCOVER         = 'DI';
+
+	static protected $typeChoices = array(
+			self::TYPE_VISA             => 'VISA',
+			self::TYPE_MASTERCARD       => 'MasterCard',
+			self::TYPE_AMERICAN_EXPRESS => 'American Express',
+			self::TYPE_DISCOVER         => 'Discover',
+			);
+
 	protected $expireMonth;
 	protected $expireYear;
 	protected $number;
@@ -53,6 +65,21 @@ class CreditCard extends PaymentMethod {
 		return $this->type;
 	}
 
+	public function getTypeText() {
+		$type = $this->getType();
+		if (isset(self::$typeChoices[$type])) {
+			return self::$typeChoices[$type];
+		}
+	}
+
+	static public function getTypeConstraintChoices() {
+		return array_keys(self::$typeChoices);
+	}
+
+	public static function getTypeFieldChoices() {
+		return self::$typeChoices;
+	}
+
 	public function setVerification($verify) {
 		$this->verification = (string) $verify;
 	}
@@ -60,5 +87,5 @@ class CreditCard extends PaymentMethod {
 	public function getVerification() {
 		return $this->verification;
 	}
-	
+
 }
