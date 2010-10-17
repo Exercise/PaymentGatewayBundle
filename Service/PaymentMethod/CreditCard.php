@@ -57,8 +57,16 @@ class CreditCard extends PaymentMethod {
 		return $this->owner;
 	}	
 
+	public static function isTypeValid($type) {
+		return array_key_exists($type, static::$typeChoices);
+	}
+
 	public function setType($type) {
-		$this->type = (string) $type;
+		$type = (string) $type;
+		if (FALSE === $this->isTypeValid($type)) {
+			throw new \InvalidArgumentException($type.' is not a valid Rule Type.');
+		}
+		return $this->type = $type;
 	}
 
 	public function getType() {
